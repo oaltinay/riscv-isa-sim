@@ -566,6 +566,7 @@ disassembler_t::disassembler_t(int xlen)
   DEFINE_RTYPE(divuw);
   DEFINE_RTYPE(remw);
   DEFINE_RTYPE(remuw);
+  DEFINE_RTYPE(cust1);
 
   DEFINE_ITYPE_SHIFT(slliu_w);
   DEFINE_RTYPE(addu_w);
