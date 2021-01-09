@@ -213,6 +213,22 @@ bool processor_t::slow_path()
   return debug || state.single_step != state.STEP_NONE || state.debug_mode;
 }
 
+#include "clock_cycles_map.h"
+
+uint64_t processor_t::get_clock_cycle(const insn_t& insn)
+{
+  const disasm_insn_t* disasm_insn = disassembler->lookup(insn);
+  std::string insn_name(disasm_insn->get_name());
+  const auto it = clock_cycles.find(disasm_insn->get_name());
+  if(clock_cycles.end() == it)
+  {
+    return 1;
+  }
+  printf("Insn: %s Clock: %d\n", insn_name.c_str() ,it->second);
+  return it->second;
+  return 1;
+}
+
 // fetch/decode/execute loop
 void processor_t::step(size_t n)
 {
@@ -229,6 +245,8 @@ void processor_t::step(size_t n)
 
   while (n > 0) {
     size_t instret = 0;
+    uint64_t cycle_total = 0;
+    uint64_t cycle = 0;
     reg_t pc = state.pc;
     mmu_t* _mmu = mmu;
 
@@ -236,8 +254,8 @@ void processor_t::step(size_t n)
      if (unlikely(invalid_pc(pc))) { \
        switch (pc) { \
          case PC_SERIALIZE_BEFORE: state.serialized = true; break; \
-         case PC_SERIALIZE_AFTER: ++instret; break; \
-         case PC_SERIALIZE_WFI: n = ++instret; break; \
+         case PC_SERIALIZE_AFTER: { cycle_total += cycle; ++instret; break;}  \
+         case PC_SERIALIZE_WFI: { cycle_total += cycle; n = ++instret; break;} \
          default: abort(); \
        } \
        pc = state.pc; \
@@ -245,6 +263,7 @@ void processor_t::step(size_t n)
      } else { \
        state.pc = pc; \
        instret++; \
+       cycle_total += cycle; \
      }
 
     try
@@ -272,6 +291,7 @@ void processor_t::step(size_t n)
           if (debug && !state.serialized)
             disasm(fetch.insn);
           pc = execute_insn(this, pc, fetch);
+          cycle = get_clock_cycle(fetch.insn);
           advance_pc();
         }
       }
@@ -307,12 +327,14 @@ void processor_t::step(size_t n)
         #define ICACHE_ACCESS(i) { \
           insn_fetch_t fetch = ic_entry->data; \
           pc = execute_insn(this, pc, fetch); \
+          cycle = get_clock_cycle(fetch.insn); \
           ic_entry = ic_entry->next; \
           if (i == mmu_t::ICACHE_ENTRIES-1) break; \
           if (unlikely(ic_entry->tag != pc)) break; \
           if (unlikely(instret+1 == n)) break; \
           instret++; \
           state.pc = pc; \
+          cycle_total += cycle; \
         }
 
         // This switch statement implements the modified Duff's device as
@@ -345,6 +367,7 @@ void processor_t::step(size_t n)
 
         insn_fetch_t fetch = mmu->load_insn(pc);
         pc = execute_insn(this, pc, fetch);
+        cycle = get_clock_cycle(fetch.insn);
         advance_pc();
 
         delete mmu->matched_trigger;
@@ -376,5 +399,6 @@ void processor_t::step(size_t n)
 
     state.minstret += instret;
     n -= instret;
+    state.mcycle += cycle_total;
   }
 }

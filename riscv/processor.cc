@@ -312,6 +312,7 @@ void state_t::reset(reg_t max_isa)
   mtvec = 0;
   mcause = 0;
   minstret = 0;
+  mcycle = 0;
   mie = 0;
   mip = 0;
   medeleg = 0;
@@ -1435,8 +1436,15 @@ reg_t processor_t::get_csr(int which, insn_t insn, bool write, bool peek)
       if (!supports_extension('V'))
         break;
       ret((VU.vxsat << VCSR_VXSAT_SHIFT) | (VU.vxrm << VCSR_VXRM_SHIFT));
-    case CSR_INSTRET:
     case CSR_CYCLE:
+    {      
+      if (!ctr_ok)
+        goto throw_illegal;
+      if (!ctr_v_ok)
+        goto throw_virtual;
+      ret(state.mcycle);   
+    }
+    case CSR_INSTRET:
       if (!ctr_ok)
         goto throw_illegal;
       if (!ctr_v_ok)

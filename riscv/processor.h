@@ -169,6 +169,7 @@ struct state_t
   reg_t mtvec;
   reg_t mcause;
   reg_t minstret;
+  reg_t mcycle;
   reg_t mie;
   reg_t mip;
   reg_t medeleg;
@@ -424,6 +425,8 @@ public:
   void set_mmu_capability(int cap);
 
   const char* get_symbol(uint64_t addr);
+
+  uint64_t get_clock_cycle(const insn_t& insn);
 
 private:
   simif_t* sim;
