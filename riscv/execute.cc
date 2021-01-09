@@ -224,9 +224,7 @@ uint64_t processor_t::get_clock_cycle(const insn_t& insn)
   {
     return 1;
   }
-  printf("Insn: %s Clock: %d\n", insn_name.c_str() ,it->second);
   return it->second;
-  return 1;
 }
 
 // fetch/decode/execute loop
