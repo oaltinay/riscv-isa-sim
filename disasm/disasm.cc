@@ -567,9 +567,9 @@ disassembler_t::disassembler_t(int xlen)
   DEFINE_RTYPE(remw);
   DEFINE_RTYPE(remuw);
   // ! Custom instruction
-  DEFINE_RTYPE(cust0);
-  DEFINE_RTYPE(cust1);
-  DEFINE_RTYPE(cust2);
+  DEFINE_RTYPE(rot);
+  DEFINE_ITYPE(roti);
+  DEFINE_RTYPE(sbox);
   DEFINE_RTYPE(cust3);
   
   DEFINE_ITYPE_SHIFT(slliu_w);

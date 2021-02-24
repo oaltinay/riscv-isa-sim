@@ -66,7 +66,7 @@ Install bash, gmake, dtc, and use clang.
     $ mkdir build
     $ cd build
     $ ../configure --prefix=$RISCV
-    $ gmake
+    $ make
     $ [doas] make install
 
 Compiling and Running a Simple C Program

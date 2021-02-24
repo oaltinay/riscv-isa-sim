@@ -118,9 +118,9 @@ riscv_insn_ext_i = \
 	xori \
 	fence \
 	fence_i \
-  cust0 \
-  cust1 \
-  cust2 \
+  rot \
+  roti \
+  sbox \
   cust3 \
   
 riscv_insn_ext_a = \
