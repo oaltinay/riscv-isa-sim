@@ -121,7 +121,7 @@ riscv_insn_ext_i = \
   rot \
   roti \
   sbox \
-  cust3 \
+  sboxi \
   
 riscv_insn_ext_a = \
 	amoadd_d \

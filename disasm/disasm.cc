@@ -570,7 +570,7 @@ disassembler_t::disassembler_t(int xlen)
   DEFINE_RTYPE(rot);
   DEFINE_ITYPE(roti);
   DEFINE_RTYPE(sbox);
-  DEFINE_RTYPE(cust3);
+  DEFINE_ITYPE(sboxi);
   
   DEFINE_ITYPE_SHIFT(slliu_w);
   DEFINE_RTYPE(addu_w);

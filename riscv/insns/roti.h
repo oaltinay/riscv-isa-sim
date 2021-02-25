@@ -1,1 +1,1 @@
-WRITE_RD((RS1 >> RS2) | (RS1 << (32 - RS2)));
+WRITE_RD((RS1 >> insn.i_imm()) | (RS1 << (32 - insn.i_imm())));

@@ -13,5 +13,7 @@ const std::map <std::string, uint64_t> clock_cycles = {
 {"div",   4},
 {"divu",  4},
 {"rem",   4},
-{"remu",  4}
+{"remu",  4},
+{"sbox", 11},
+{"sboxi",11}
 };

@@ -2080,14 +2080,14 @@
 #define MATCH_VL8R_V 0x1e807007
 #define MASK_VL8R_V  0xfff0707f
 // ! Custom instructions
-#define MATCH_ROT          0x30000033
-#define MASK_ROT           0xfe00707f
-#define MATCH_ROTI         0x50000033
-#define MASK_ROTI          0xfe00707f
+#define MATCH_ROT        0x30000033
+#define MASK_ROT         0xfe00707f
+#define MATCH_ROTI       0x50000033
+#define MASK_ROTI        0xfe00707f
 #define MATCH_SBOX       0x60000033
-#define MASK_SBOX         0xfe00707f
-#define MATCH_CUST3        0x70000033
-#define MASK_CUST3         0xfe00707f
+#define MASK_SBOX        0xfe00707f
+#define MATCH_SBOXI      0x70000033
+#define MASK_SBOXI       0xfe00707f
 #define CSR_FFLAGS 0x1
 #define CSR_FRM 0x2
 #define CSR_FCSR 0x3
@@ -3283,7 +3283,7 @@ DECLARE_INSN(vl8r_v, MATCH_VL8R_V, MASK_VL8R_V)
 DECLARE_INSN(rot, MATCH_ROT, MASK_ROT)
 DECLARE_INSN(roti,MATCH_ROTI, MASK_ROTI)
 DECLARE_INSN(sbox, MATCH_SBOX, MASK_SBOX)
-DECLARE_INSN(cust3, MATCH_CUST3, MASK_CUST3)
+DECLARE_INSN(sboxi, MATCH_SBOXI, MASK_SBOXI)
 #endif
 #ifdef DECLARE_CSR
 DECLARE_CSR(fflags, CSR_FFLAGS)
